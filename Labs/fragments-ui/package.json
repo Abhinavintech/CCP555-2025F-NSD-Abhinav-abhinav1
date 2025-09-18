@@ -1,0 +1,22 @@
+{
+  "name": "fragments-ui",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Fragments UI testing web app",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "url": "git+https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1.git"
+  },
+  "author": "Abhinav",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "oidc-client-ts": "^2.4.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
