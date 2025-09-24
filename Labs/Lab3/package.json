@@ -4,8 +4,13 @@
   "description": "Lab 3 ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "echo \"Linting completed successfully\""
+    "test:watch": "jest -c jest.config.js --runInBand --watch --",
+    "test": "jest -c jest.config.js --runInBand --",
+    "coverage": "jest -c jest.config.js --runInBand --coverage",
+    "lint": "eslint \"./src/**/*.js\" \"tests/**/*.js\"",
+    "start": "node src/index.js",
+    "dev": "LOG_LEVEL=debug nodemon ./src/index.js --watch src",
+    "debug": "LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/index.js --watch src"
   },
   "repository": {
     "type": "git",
@@ -16,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1/issues"
   },
-  "homepage": "https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1#readme"
+  "homepage": "https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "dotenv": "^16.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.0"
+  }
 }
