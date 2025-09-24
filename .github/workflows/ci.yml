@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Labs/fragments
+        working-directory: Labs/Lab3
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: 'npm'
-          cache-dependency-path: Labs/fragments/package-lock.json
+          cache-dependency-path: Labs/Lab3/package-lock.json
 
       - name: Install node dependencies
         run: npm ci
