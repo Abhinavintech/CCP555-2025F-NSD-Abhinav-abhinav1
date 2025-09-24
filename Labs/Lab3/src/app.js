@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const passport = require('passport');
-const { authenticate } = require('./auth');
 
 const app = express();
 
