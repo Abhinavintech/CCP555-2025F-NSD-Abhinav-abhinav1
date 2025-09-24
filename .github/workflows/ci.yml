@@ -1,8 +1,5 @@
-
- 
 # Continuous Integration (CI) Workflow
 name: ci
- 
 
 on:
   pull_request:
@@ -11,30 +8,27 @@ on:
   push:
     branches:
       - main
- 
+
 jobs:
   lint:
     name: ESLint
-
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Labs/fragments
     steps:
-
       - name: Check out code
         uses: actions/checkout@v4
- 
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-
           node-version: 'lts/*'
-     
           cache: 'npm'
- 
-      - name: Install node dependencies
+          cache-dependency-path: Labs/fragments/package-lock.json
 
+      - name: Install node dependencies
         run: npm ci
- 
+
       - name: Run ESLint
         run: npm run lint
- 
