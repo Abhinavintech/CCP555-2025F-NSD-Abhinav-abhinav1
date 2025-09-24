@@ -4,9 +4,9 @@ const cognitoAuthConfig = {
   authority: `https://cognito-idp.us-east-1.amazonaws.com/${process.env.AWS_COGNITO_POOL_ID}`,
   client_id: process.env.AWS_COGNITO_CLIENT_ID,
   redirect_uri: process.env.OAUTH_SIGN_IN_REDIRECT_URL,
+  post_logout_redirect_uri: process.env.OAUTH_SIGN_IN_REDIRECT_URL,
   response_type: 'code',
-  scope: 'phone openid email',
-  revokeTokenTypes: ['refresh_token'],
+  scope: 'openid email phone',
   automaticSilentRenew: false,
 };
 
