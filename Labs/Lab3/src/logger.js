@@ -9,3 +9,4 @@ const logger = winston.createLogger({
 });
 
 module.exports = logger;
+const unusedVariable = 'This will cause ESLint to fail';
