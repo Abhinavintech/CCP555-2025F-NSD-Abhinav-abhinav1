@@ -1,3 +1,5 @@
 .vscode/
 node_modules/
 .env
+Labs/fragments/data/
+Labs/fragments/coverage/

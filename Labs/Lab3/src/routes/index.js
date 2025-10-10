@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
   res.json(createSuccessResponse({
     author,
     version,
-    githubUrl: 'https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1.git',
+    githubUrl: 'http://localhost:8080',
   }));
 });
 

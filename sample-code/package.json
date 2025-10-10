@@ -1,0 +1,43 @@
+{
+  "name": "fragments",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Fragments microservice - Assignment 1 starter template",
+  "scripts": {
+    "test": "jest -c jest.config.js --runInBand --",
+    "test:watch": "jest -c jest.config.js --runInBand --watch --",
+    "coverage": "jest -c jest.config.js --runInBand --coverage",
+    "lint": "eslint \"./src/**/*.js\" \"tests/**/*.js\"",
+    "start": "node src/index.js",
+    "dev": "node --env-file=debug.env --watch ./src/index.js",
+    "debug": "node --env-file=debug.env --inspect=0.0.0.0:9229 --watch ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/YOUR_REPO.git"
+  },
+  "author": "Your Name",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "eslint": "^8.57.0"
+  },
+  "dependencies": {
+    "aws-jwt-verify": "^5.1.1",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "http-auth": "^4.2.1",
+    "http-auth-passport": "^1.0.7",
+    "passport": "^0.7.0",
+    "passport-http-bearer": "^1.0.1",
+    "pino": "^10.0.0",
+    "pino-http": "^10.5.0",
+    "pino-pretty": "^13.1.1",
+    "stoppable": "^1.1.0"
+  }
+}

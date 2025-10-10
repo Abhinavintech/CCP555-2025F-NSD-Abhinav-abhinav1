@@ -1,16 +1,54 @@
+// src/app.js
+
 const express = require('express');
-const app = express();
-const compression = require('compression');
 const cors = require('cors');
-const passport = require('passport');
-const { authenticate } = require('./auth');
+const helmet = require('helmet');
+const compression = require('compression');
+const contentType = require('content-type');
 
-app.use(compression());
+const Fragment = require('./model/fragment');
+const { author, version } = require('../package.json');
+
+const logger = require('./logger');
+const pino = require('pino-http')({ logger });
+
+const app = express();
+
+app.use(pino);
+app.use(helmet());
 app.use(cors());
+app.use(compression());
 
-passport.use(require('./auth').strategy());
+const rawBody = () =>
+  express.raw({
+    inflate: true,
+    limit: '5mb',
+    type: (req) => {
+      const { type } = contentType.parse(req);
+      return Fragment.isSupportedType(type);
+    },
+  });
+
+app.use('/v1/fragments', rawBody());
+
+const passport = require('passport');
+const authenticate = require('./auth');
+if (authenticate.strategy && authenticate.strategy()) {
+  passport.use(authenticate.strategy());
+}
 app.use(passport.initialize());
 
 app.use('/', require('./routes'));
+
+app.use((req, res) => {
+  res.status(404).json({ status: 'error', error: { message: 'not found', code: 404 } });
+});
+
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || 'unable to process request';
+  if (status > 499) logger.error({ err }, `Error processing request`);
+  res.status(status).json({ status: 'error', error: { message, code: status } });
+});
 
 module.exports = app;
