@@ -6,6 +6,8 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
+    "lint": "eslint src --ext .js",
+    "format": "prettier --write \"src/**/*.js\" index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +19,8 @@
     "oidc-client-ts": "^2.4.1"
   },
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "parcel": "^2.8.3",
+    "prettier": "^2.8.8",
+    "eslint": "^8.0.0"
   }
 }
