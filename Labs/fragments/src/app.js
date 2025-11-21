@@ -32,7 +32,8 @@ const rawBody = () =>
 app.use('/v1/fragments', rawBody());
 
 const passport = require('passport');
-const authenticate = require('./auth');
+// Require the auth directory explicitly to ensure we use the selection logic in auth/index.js
+const authenticate = require('./auth/index');
 if (authenticate.strategy && authenticate.strategy()) {
   passport.use(authenticate.strategy());
 }

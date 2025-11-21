@@ -7,7 +7,8 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "debug": "nodemon --inspect src/index.js",
-    "test": "jest --runInBand --config ../Lab3/jest.config.js",
+  "pretest": "(cd ../Lab3 && npm ci)",
+  "test": "jest --runInBand --config ../Lab3/jest.config.js",
     "format": "prettier --write \"src/**/*.js\"",
   "coverage": "jest --coverage --runInBand --config ../Lab3/jest.config.js --collectCoverageFrom=\"src/**/*.js\""
   },
@@ -28,7 +29,15 @@
     "passport-http-bearer": "^1.0.1",
     "sharp": "^0.34.4",
     "@aws-sdk/client-s3": "^3.486.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "pino": "^8.19.0",
+    "pino-pretty": "^10.1.0"
+    ,"stoppable": "^1.1.0"
+    ,"helmet": "^7.0.0",
+    "content-type": "^1.0.4",
+    "pino-http": "^8.1.0",
+    "http-auth": "^3.2.3",
+    "http-auth-passport": "^1.0.0"
   },
   "optionalDependencies": {
     "js-yaml": "^4.1.0",

@@ -1,28 +1,10 @@
-const { hash } = require('../hash');
-
-module.exports = (strategy) => {
-  return (req, res, next) => {
-    const passport = require('passport');
-
-    passport.authenticate(strategy, { session: false }, (err, email) => {
-      if (err) return next(err);
-      if (!email)
-        return res
-          .status(401)
-          .json({ status: 'error', error: { message: 'unauthorized', code: 401 } });
-
-      req.user = hash(email);
-      next();
-    })(req, res, next);
-  };
-};
 const hash = require('../hash');
 
-// authorize(strategy) returns middleware that invokes passport but also
+// authorize(strategyName) returns middleware that invokes passport but also
 // ensures req.user and req.userId (hashed) are set for downstream handlers.
 module.exports = function authorize(strategyName) {
   return (req, res, next) => {
-    // If a test harness already set req.user, just hash it and continue
+    // If a test harness already set req.user, just compute userId and continue
     if (req.user) {
       req.userId = hash.hashEmail(req.user.email || req.user);
       return next();

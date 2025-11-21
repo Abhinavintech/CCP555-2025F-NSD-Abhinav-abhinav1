@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+// health check endpoint
+router.get('/health', require('./health'));
+
 // collection endpoints
 router.get('/fragments', require('./get'));
 router.post('/fragments', require('./post'));
