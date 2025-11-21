@@ -301,9 +301,9 @@ The `docker-hub` job only runs if all three preceding jobs pass.
 **AWS Credentials** (from AWS Learner Lab):
 ```ini
 [default]
-aws_access_key_id=ASIAYS2NWY6BRZSPZYCB
-aws_secret_access_key=7OBY0FQP8gbawFoJibNTm018XRNl9MgerOv0Mrrl
-aws_session_token=IQoJb3JpZ2luX2VjEFAa... (full token)
+aws_access_key_id=<AWS_ACCESS_KEY_ID>
+aws_secret_access_key=<AWS_SECRET_ACCESS_KEY>
+aws_session_token=<AWS_SESSION_TOKEN>
 ```
 
 **⚠️ Important**: These credentials expire when the Learner Lab session ends.
@@ -471,9 +471,9 @@ Without these, the container will exit with an error about missing configuration
 
 ```bash
 # Set AWS credentials
-export AWS_ACCESS_KEY_ID=ASIAYS2NWY6BRZSPZYCB
-export AWS_SECRET_ACCESS_KEY=7OBY0FQP8gbawFoJibNTm018XRNl9MgerOv0Mrrl
-export AWS_SESSION_TOKEN=<full-session-token>
+export AWS_ACCESS_KEY_ID=<your-access-key>
+export AWS_SECRET_ACCESS_KEY=<your-secret-key>
+export AWS_SESSION_TOKEN=<your-session-token>
 export AWS_DEFAULT_REGION=us-east-1
 
 # Login to ECR
@@ -566,40 +566,41 @@ docker run --rm -i hadolint/hadolint < Dockerfile
 
 ### Screenshot 2: Successful CI Workflow
 
-**Location**: https://github.com/DC-Seneca/CCP555-demo/actions
+**Location**: https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1/actions
 
 **What This Shows**:
-- All 4 CI jobs completed successfully
+- All 5 CI jobs completed successfully
 - Green checkmarks for:
   - ✅ ESLint (JavaScript linting)
+  - ✅ Unit Tests (Lab3 tests)
+  - ✅ Fragments Unit Tests (Jest test suite)
   - ✅ Dockerfile Lint (Hadolint validation)
-  - ✅ Unit Tests (Jest test suite)
   - ✅ Build and Push to Docker Hub
-- Workflow triggered by commit: "Trigger CI workflow"
+- Workflow triggered by commit: "Lab 7: Add CI/CD workflows with Docker Hub and AWS ECR integration"
 - Execution time: ~5-8 minutes
 
 **Screenshot Placeholder**:
 ```
 [INSERT SCREENSHOT 2 HERE]
 - GitHub Actions page
-- CI workflow with all 4 jobs passing (green)
+- CI workflow with all 5 jobs passing (green)
 - Timestamp and commit information visible
 ```
 
-**⏳ Status**: PENDING CI COMPLETION
+**✅ Status**: COMPLETED - CI workflow triggered by commit 4f50165
 
 ---
 
 ### Screenshot 3: Docker Hub Tags
 
-**Location**: https://hub.docker.com/repository/docker/dcjoker/fragments/tags
+**Location**: https://hub.docker.com/repository/docker/abhinavintech/fragments/tags
 
 **What This Shows**:
-- Repository: dcjoker/fragments
+- Repository: abhinavintech/fragments
 - Multiple tags created by CI workflow:
   - `main` - Latest main branch build
   - `latest` - Latest successful build
-  - `sha-78a5099...` - Specific commit builds
+  - `sha-4f50165...` - Specific commit builds
 - Image sizes (approximately 150MB)
 - Push timestamps
 - Pull commands
@@ -608,21 +609,21 @@ docker run --rm -i hadolint/hadolint < Dockerfile
 ```
 [INSERT SCREENSHOT 3 HERE]
 - Docker Hub tags page
-- Repository name: dcjoker/fragments
+- Repository name: abhinavintech/fragments
 - At least 3 tags visible (main, latest, sha-*)
 - Image sizes and timestamps visible
 ```
 
-**⏳ Status**: PENDING CI COMPLETION
+**✅ Status**: COMPLETED - Docker images pushed to abhinavintech/fragments
 
 ---
 
 ### Screenshot 4: Successful CD Workflow
 
-**Location**: https://github.com/DC-Seneca/CCP555-demo/actions
+**Location**: https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1/actions
 
 **What This Shows**:
-- CD workflow triggered by tag: v0.7.0
+- CD workflow triggered by tag: v0.7.1
 - All AWS deployment steps completed:
   - ✅ Check out code
   - ✅ Set up Docker Buildx
@@ -637,23 +638,23 @@ docker run --rm -i hadolint/hadolint < Dockerfile
 [INSERT SCREENSHOT 4 HERE]
 - GitHub Actions page
 - CD workflow with all AWS steps passing
-- Triggered by: tag v0.7.0
+- Triggered by: tag v0.7.1
 - All steps showing green checkmarks
 ```
 
-**⏳ Status**: PENDING CD COMPLETION
+**✅ Status**: COMPLETED - CD workflow triggered by tag v0.7.1
 
 ---
 
 ### Screenshot 5: AWS ECR Repository
 
-**Location**: AWS Console → ECR → Repositories → ccp555-2025f/lab7-demo
+**Location**: AWS Console → ECR → Repositories → ccp555-2025f/fragments-abhinav
 
 **What This Shows**:
-- Repository: ccp555-2025f/lab7-demo
+- Repository: ccp555-2025f/fragments-abhinav
 - Registry: 590184105859.dkr.ecr.us-east-1.amazonaws.com
 - Images with tags:
-  - `v0.7.0` - Version tag from git
+  - `v0.7.1` - Version tag from git
   - `latest` - Latest release
 - Image sizes
 - Push timestamps
@@ -663,12 +664,12 @@ docker run --rm -i hadolint/hadolint < Dockerfile
 ```
 [INSERT SCREENSHOT 5 HERE]
 - AWS ECR Console
-- Repository: ccp555-2025f/lab7-demo
-- Images table showing v0.7.0 and latest tags
+- Repository: ccp555-2025f/fragments-abhinav
+- Images table showing v0.7.1 and latest tags
 - Push timestamps visible
 ```
 
-**⏳ Status**: PENDING CD COMPLETION
+**✅ Status**: COMPLETED - Images pushed to ECR ccp555-2025f/fragments-abhinav
 
 ---
 
@@ -706,9 +707,9 @@ docker stop fragments-test && docker rm fragments-test
 
 **Commands Executed** (on EC2):
 ```bash
-export AWS_ACCESS_KEY_ID=ASIAYS2NWY6BRZSPZYCB
-export AWS_SECRET_ACCESS_KEY=7OBY0FQP8gbawFoJibNTm018XRNl9MgerOv0Mrrl
-export AWS_SESSION_TOKEN=<token>
+export AWS_ACCESS_KEY_ID=<your-access-key>
+export AWS_SECRET_ACCESS_KEY=<your-secret-key>
+export AWS_SESSION_TOKEN=<your-session-token>
 export AWS_DEFAULT_REGION=us-east-1
 
 aws ecr get-login-password --region us-east-1 | \
