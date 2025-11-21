@@ -1,0 +1,104 @@
+# Simple CI Workflow for testing
+name: ci-simple
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Labs/Lab3
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+          cache-dependency-path: Labs/Lab3/package-lock.json
+
+      - name: Install node dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Labs/Lab3
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+          cache-dependency-path: Labs/Lab3/package-lock.json
+
+      - name: Install node dependencies and run Tests
+        run: npm install-ci-test
+
+  fragments-tests:
+    name: Fragments Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Labs/fragments
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run fragments tests
+        env:
+          NODE_ENV: test
+        run: npm test --silent
+
+  dockerfile-lint:
+    name: Dockerfile Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Labs/fragments/Dockerfile
+
+  docker-build-test:
+    name: Test Docker Build
+    needs: [lint, unit-tests, fragments-tests, dockerfile-lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (test only)
+        uses: docker/build-push-action@v6
+        with:
+          context: Labs/fragments
+          push: false
+          tags: test-fragments:latest
