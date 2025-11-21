@@ -21,3 +21,24 @@ Testing checklist
 - [ ] `npm start` in this folder and open the page
 - [ ] Click Login and complete the Cognito Hosted UI flow
 - [ ] Create a simple text fragment and verify it appears in the backend
+
+Deployment notes (Cognito callback & HTTPS)
+-------------------------------------------------
+When deploying the UI to EC2 you must serve the UI over HTTPS and register the HTTPS callback URL in Cognito. Cognito rejects non-localhost HTTP callback URLs.
+
+If your instance has a public domain `ec2-XX-YY-...amazonaws.com` and you want to use that as the UI origin, you need to:
+
+1. Associate an Elastic IP (optional, recommended) so the public DNS persists between restarts.
+2. Serve the UI at `https://your-domain` (see `deploy/` for an Nginx + certbot setup script `deploy/setup-ec2.sh`).
+3. In the Cognito App client settings add the callback URL: `https://your-domain` and the sign out URL `https://your-domain`.
+
+CloudFront alternative
+-----------------------
+You can also upload `dist/` to an S3 bucket and put a CloudFront distribution in front of it to get HTTPS easily via ACM. Then use the CloudFront domain as the Cognito callback.
+
+Example steps:
+- Build UI: `npm run build`
+- Upload `dist/` to S3: `aws s3 sync dist/ s3://your-bucket/`
+- Create CloudFront distribution with the S3 bucket as origin and enable HTTPS with an ACM certificate.
+- Add CloudFront domain to Cognito callback URLs.
+

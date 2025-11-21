@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         working-directory: Labs/fragments
         run: npm ci
+      - name: Install Lab3 dependencies (tests/config)
+        working-directory: Labs/Lab3
+        run: npm ci
       - name: Run tests
         working-directory: Labs/fragments
         env:
@@ -93,10 +96,6 @@ jobs:
         env:
           NODE_ENV: test
           STORAGE_BACKEND: s3
-          FRAGMENTS_S3_BUCKET: ${{ secrets.FRAGMENTS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           # Replace with an integration script if present; this is a placeholder
           node ./tests/Integration/smoke.js || echo "No integration script."

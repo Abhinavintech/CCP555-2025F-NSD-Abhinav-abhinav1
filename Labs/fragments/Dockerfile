@@ -47,6 +47,9 @@ COPY --chown=fragments:nodejs ./src ./src
 # Copy our HTPASSWD file so basic auth works when using env.jest
 COPY --chown=fragments:nodejs ./tests/.htpasswd ./tests/.htpasswd
 
+# Create data directory with proper permissions before switching user
+RUN mkdir -p /app/data && chown fragments:nodejs /app/data
+
 # Switch to non-root user
 USER fragments
 
