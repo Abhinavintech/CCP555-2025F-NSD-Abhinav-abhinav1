@@ -7,10 +7,10 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "debug": "nodemon --inspect src/index.js",
-  "pretest": "(cd ../Lab3 && npm ci)",
-  "test": "jest --runInBand --config ../Lab3/jest.config.js",
+    "pretest": "(cd ../Lab3 && npm ci)",
+    "test": "jest --runInBand --config ../Lab3/jest.config.js",
     "format": "prettier --write \"src/**/*.js\"",
-  "coverage": "jest --coverage --runInBand --config ../Lab3/jest.config.js --collectCoverageFrom=\"src/**/*.js\""
+    "coverage": "jest --coverage --runInBand --config ../Lab3/jest.config.js --collectCoverageFrom=\"src/**/*.js\""
   },
   "repository": {
     "url": "git+https://github.com/Abhinavintech/CCP555-2025F-NSD-Abhinav-abhinav1.git"
@@ -31,9 +31,9 @@
     "@aws-sdk/client-s3": "^3.486.0",
     "winston": "^3.8.2",
     "pino": "^8.19.0",
-    "pino-pretty": "^10.1.0"
-    ,"stoppable": "^1.1.0"
-    ,"helmet": "^7.0.0",
+    "pino-pretty": "^10.1.0",
+    "stoppable": "^1.1.0",
+    "helmet": "^7.0.0",
     "content-type": "^1.0.4",
     "pino-http": "^8.1.0",
     "http-auth": "^3.2.3",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "nodemon": "^2.0.22",
-  "supertest": "^7.1.4",
-  "prettier": "3.6.2"
+    "supertest": "^7.1.4",
+    "prettier": "3.6.2"
   }
 }
