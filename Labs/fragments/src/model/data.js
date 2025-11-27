@@ -25,7 +25,9 @@ function blobPath(id) {
 
 function hashOwner(owner) {
   if (!owner) return null;
-  return createHash('sha256').update(owner).digest('hex');
+  // Handle both string and object (e.g., {email: '...'})
+  const email = typeof owner === 'string' ? owner : owner.email || owner;
+  return createHash('sha256').update(String(email)).digest('hex');
 }
 
 function createFragment(ownerId, type, buffer) {

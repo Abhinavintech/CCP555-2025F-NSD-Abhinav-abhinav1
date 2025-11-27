@@ -73,7 +73,7 @@ async function handleGet(req, res, id, requestedExt, meta) {
 
   const text = data.toString('utf8');
   const jsYaml = tryRequire('js-yaml');
-  const marked = tryRequire('marked');
+  const MarkdownIt = tryRequire('markdown-it');
   const sharp = tryRequire('sharp');
 
   // JSON <-> YAML
@@ -156,9 +156,10 @@ async function handleGet(req, res, id, requestedExt, meta) {
 
   // Markdown -> HTML
   if (meta.type === 'text/markdown' && targetType === 'text/html') {
-    if (!marked)
+    if (!MarkdownIt)
       return res.status(415).json(createErrorResponse(415, 'markdown library not available'));
-    const html = marked.parse(text);
+    const md = new MarkdownIt();
+    const html = md.render(text);
     res.setHeader('Content-Type', 'text/html');
     return res.status(200).send(html);
   }
@@ -214,12 +215,10 @@ module.exports = async (req, res) => {
   const meta = await storage.readFragmentMeta(id);
   if (!meta) return res.status(404).json(createErrorResponse(404, 'not found'));
 
-  // Check ownership: req.user.email hashed in storage
-  const owner = req.user && req.user.email ? req.user.email : null;
-  if (!owner) return res.status(401).json(createErrorResponse(401, 'unauthorized'));
-  const ownerHash = require('crypto').createHash('sha256').update(owner).digest('hex');
-  if (meta.ownerId !== ownerHash)
-    return res.status(403).json(createErrorResponse(403, 'forbidden'));
+  // Ownership: use req.userId (hashed via auth middleware) when available
+  const userHash = req.userId || (req.user && req.user.email && require('crypto').createHash('sha256').update(req.user.email).digest('hex'));
+  if (!userHash) return res.status(401).json(createErrorResponse(401, 'unauthorized'));
+  if (meta.ownerId !== userHash) return res.status(403).json(createErrorResponse(403, 'forbidden'));
 
   // Info route
   if (req.path.endsWith('/info')) {
@@ -230,28 +229,30 @@ module.exports = async (req, res) => {
   if (req.method === 'PUT') {
     try {
       const contentType = req.header('Content-Type') || meta.type;
-      const { isAllowed, normalizeType } = require('../../content-types');
+      const { isAllowed } = require('../../content-types');
       if (!isAllowed(contentType))
         return res.status(415).json(createErrorResponse(415, 'unsupported media type'));
-      let buffer = null;
-      if (Buffer.isBuffer(req.body)) {
-        buffer = req.body;
-      } else {
+      // Enforce immutable type requirement
+      if (contentType !== meta.type)
+        return res.status(400).json(createErrorResponse(400, 'content type mismatch'));
+
+      let buffer;
+      if (Buffer.isBuffer(req.body)) buffer = req.body;
+      else {
         const chunks = [];
         for await (const chunk of req) chunks.push(chunk);
         buffer = Buffer.concat(chunks);
       }
 
-      // Use Fragment model to perform update
       const fragment = await Fragment.byId(id);
       if (!fragment) return res.status(404).json(createErrorResponse(404, 'not found'));
-      fragment.type = normalizeType(contentType);
+      // Do not change fragment.type
       const updatedMeta = await fragment.setData(buffer);
       return res.status(200).json(createSuccessResponse({ fragment: updatedMeta }));
     } catch (e) {
       if (e.message === 'content-type-mismatch')
         return res.status(400).json(createErrorResponse(400, 'content type mismatch'));
-      return res.status(500).json(createErrorResponse(500, e.message));
+      return res.status(500).json(createErrorResponse(500, 'unable to update'));
     }
   }
 

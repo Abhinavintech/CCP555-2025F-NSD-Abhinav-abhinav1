@@ -5,11 +5,18 @@ const passportMock = require('../helpers/passport-mock');
 process.env.AWS_COGNITO_POOL_ID = process.env.AWS_COGNITO_POOL_ID || 'us-east-1_abcdefghi';
 process.env.AWS_COGNITO_CLIENT_ID = process.env.AWS_COGNITO_CLIENT_ID || 'testclientid';
 
-passportMock.install({ email: 'dave@example.com' });
-const app = require('../../src/app');
-passportMock.restore();
-
 describe('PUT /v1/fragments/:id content-type mismatch', () => {
+  let app;
+  
+  beforeAll(() => {
+    passportMock.install({ email: 'dave@example.com' });
+    app = require('../../src/app');
+  });
+  
+  afterAll(() => {
+    passportMock.restore();
+  });
+
   test('returns 400 when content-type does not match existing fragment', async () => {
     // create fragment
     const post = await request(app)

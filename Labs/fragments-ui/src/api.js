@@ -19,8 +19,9 @@ const apiUrl = (function () {
   return 'http://localhost:8080';
 })();
 
-async function getUserFragments(user) {
-  const response = await fetch(`${apiUrl}/v1/fragments`, {
+async function getUserFragments(user, expand = false) {
+  const url = expand ? `${apiUrl}/v1/fragments?expand=1` : `${apiUrl}/v1/fragments`;
+  const response = await fetch(url, {
     headers: user.authorizationHeaders(),
   });
   if (!response.ok) {

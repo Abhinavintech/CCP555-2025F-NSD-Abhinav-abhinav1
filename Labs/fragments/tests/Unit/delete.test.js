@@ -5,11 +5,18 @@ process.env.AWS_COGNITO_CLIENT_ID = process.env.AWS_COGNITO_CLIENT_ID || 'testcl
 const request = require('supertest');
 const passportMock = require('../helpers/passport-mock');
 
-passportMock.install({ email: 'eve@example.com' });
-const app = require('../../src/app');
-passportMock.restore();
-
 describe('DELETE /v1/fragments/:id', () => {
+  let app;
+  
+  beforeAll(() => {
+    passportMock.install({ email: 'eve@example.com' });
+    app = require('../../src/app');
+  });
+  
+  afterAll(() => {
+    passportMock.restore();
+  });
+
   test('create and delete fragment', async () => {
     const post = await request(app)
       .post('/v1/fragments')

@@ -5,11 +5,18 @@ const passportMock = require('../helpers/passport-mock');
 process.env.AWS_COGNITO_POOL_ID = process.env.AWS_COGNITO_POOL_ID || 'us-east-1_abcdefghi';
 process.env.AWS_COGNITO_CLIENT_ID = process.env.AWS_COGNITO_CLIENT_ID || 'testclientid';
 
-passportMock.install({ email: 'carol@example.com' });
-const app = require('../../src/app');
-passportMock.restore();
-
 describe('GET /v1/fragments list', () => {
+  let app;
+  
+  beforeAll(() => {
+    passportMock.install({ email: 'carol@example.com' });
+    app = require('../../src/app');
+  });
+  
+  afterAll(() => {
+    passportMock.restore();
+  });
+
   test('GET /v1/fragments returns array (possibly empty)', async () => {
     const res = await request(app).get('/v1/fragments').expect(200);
     expect(res.body).toHaveProperty('status', 'ok');
