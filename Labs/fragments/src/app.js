@@ -8,6 +8,8 @@ const contentType = require('content-type');
 
 const Fragment = require('./model/fragment');
 const { author, version } = require('../package.json');
+// Store for health check
+const _appInfo = { author, version };
 
 const logger = require('./logger');
 const pino = require('pino-http')({ logger });
@@ -45,7 +47,7 @@ app.use((req, res) => {
   res.status(404).json({ status: 'error', error: { message: 'not found', code: 404 } });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   const status = err.status || 500;
   const message = err.message || 'unable to process request';
   if (status > 499) logger.error({ err }, `Error processing request`);

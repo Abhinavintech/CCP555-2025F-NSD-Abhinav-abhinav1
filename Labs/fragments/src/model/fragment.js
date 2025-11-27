@@ -42,7 +42,7 @@ class Fragment {
     try {
       const { isAllowed } = require('../content-types');
       return isAllowed(type);
-    } catch (e) {
+    } catch (_e) {
       return true;
     }
   }

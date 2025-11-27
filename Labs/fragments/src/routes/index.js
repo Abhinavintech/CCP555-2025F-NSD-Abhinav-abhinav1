@@ -23,10 +23,10 @@ router.get('/', (req, res) => {
 // otherwise fall back to unauthenticated mount (helpful in test-mode).
 try {
   router.use('/v1', authenticate(), require('./api'));
-} catch (e) {
+} catch (_e) {
   // If authenticate() is not a function or throws, still mount the api to
   // allow tests to run without auth strategy loaded.
-  // eslint-disable-next-line no-console
+   
   console.warn('auth.authenticate unavailable, mounting /v1 without auth');
   router.use('/v1', require('./api'));
 }

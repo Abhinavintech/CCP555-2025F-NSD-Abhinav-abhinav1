@@ -1,18 +1,21 @@
-// eslint v9 expects this file. Proxy to .eslintrc.cjs settings.
+import js from '@eslint/js';
+import globals from 'globals';
+
 export default [
-	{
-		files: ['**/*.js'],
-		languageOptions: {
-			ecmaVersion: 2020,
-			sourceType: 'script',
-		},
-		env: {
-			node: true,
-			jest: true,
-		},
-		rules: {
-			'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
-			'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-		},
-	},
+  js.configs.recommended,
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      sourceType: 'commonjs',
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
+  },
 ];

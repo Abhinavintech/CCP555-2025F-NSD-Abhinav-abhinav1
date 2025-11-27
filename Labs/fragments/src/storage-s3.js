@@ -1,7 +1,7 @@
 const tryRequire = (name) => {
   try {
     return require(name);
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 };
@@ -87,7 +87,7 @@ if (!s3mod) {
         );
         const body = await toBuffer(obj.Body);
         return JSON.parse(body.toString('utf8'));
-      } catch (e) {
+      } catch (_e) {
         return null;
       }
     }
@@ -99,7 +99,7 @@ if (!s3mod) {
         );
         const body = await toBuffer(obj.Body);
         return body;
-      } catch (e) {
+      } catch (_e) {
         return null;
       }
     }
@@ -136,7 +136,7 @@ if (!s3mod) {
           new DeleteObjectCommand({ Bucket: this.bucket, Key: `blobs/${id}` })
         );
         return true;
-      } catch (e) {
+      } catch (_e) {
         return false;
       }
     }

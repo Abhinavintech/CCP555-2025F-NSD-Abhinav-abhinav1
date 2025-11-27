@@ -33,8 +33,8 @@ module.exports = async (req, res) => {
         },
       })
     );
-  } catch (e) {
-    console.error('Error creating fragment:', e);
+  } catch (_e) {
+    console.error('Error creating fragment:', _e);
     return res.status(500).json(createErrorResponse(500, 'Internal server error'));
   }
 };

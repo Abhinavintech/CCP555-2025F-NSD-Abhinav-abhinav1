@@ -23,7 +23,7 @@ const extToType = {
 const tryRequire = (name) => {
   try {
     return require(name);
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 };
@@ -105,7 +105,7 @@ async function handleGet(req, res, id, requestedExt, meta) {
         res.setHeader('Content-Type', 'application/json');
         return res.status(200).send(JSON.stringify(obj));
       }
-    } catch (e) {
+    } catch (_e) {
       return res.status(415).json(createErrorResponse(415, 'conversion failed'));
     }
   }
@@ -127,7 +127,7 @@ async function handleGet(req, res, id, requestedExt, meta) {
       // YAML -> text: return original YAML text
       res.setHeader('Content-Type', 'text/plain');
       return res.status(200).send(text);
-    } catch (e) {
+    } catch (_e) {
       return res.status(415).json(createErrorResponse(415, 'conversion failed'));
     }
   }
@@ -149,7 +149,7 @@ async function handleGet(req, res, id, requestedExt, meta) {
         res.setHeader('Content-Type', 'text/csv');
         return res.status(200).send(csv);
       }
-    } catch (e) {
+    } catch (_e) {
       return res.status(415).json(createErrorResponse(415, 'conversion failed'));
     }
   }
@@ -193,7 +193,7 @@ async function handleGet(req, res, id, requestedExt, meta) {
       const out = await sharp(data).toFormat(format).toBuffer();
       res.setHeader('Content-Type', targetType);
       return res.status(200).send(out);
-    } catch (e) {
+    } catch (_e) {
       return res.status(415).json(createErrorResponse(415, 'image conversion failed'));
     }
   }
@@ -249,8 +249,8 @@ module.exports = async (req, res) => {
       // Do not change fragment.type
       const updatedMeta = await fragment.setData(buffer);
       return res.status(200).json(createSuccessResponse({ fragment: updatedMeta }));
-    } catch (e) {
-      if (e.message === 'content-type-mismatch')
+    } catch (_e) {
+      if (_e.message === 'content-type-mismatch')
         return res.status(400).json(createErrorResponse(400, 'content type mismatch'));
       return res.status(500).json(createErrorResponse(500, 'unable to update'));
     }

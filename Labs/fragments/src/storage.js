@@ -80,7 +80,7 @@ function deleteFragment(id) {
     fs.unlinkSync(metaPath(id));
     fs.unlinkSync(blobPath(id));
     return true;
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 }
