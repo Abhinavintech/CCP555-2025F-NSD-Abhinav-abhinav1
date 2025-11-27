@@ -1,4 +1,5 @@
 # Multi-stage Dockerfile for the fragments node.js microservice
+# Updated for Assignment 2 Docker Hub integration
 # Stage 1: Build dependencies
 FROM node:22.12.0-alpine AS dependencies
 
