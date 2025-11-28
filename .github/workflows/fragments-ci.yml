@@ -14,26 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install ESLint (pinned)
-        working-directory: Labs/fragments
-        run: npm install eslint@8.45.0 --no-audit --no-fund --no-package-lock
-      - name: Run ESLint
-        working-directory: Labs/fragments
-        run: npx eslint -c .eslintrc.cjs . --ext .js || true
-
-  test-fragments:
-    name: Run Fragments unit tests
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -43,8 +24,24 @@ jobs:
       - name: Install dependencies
         working-directory: Labs/fragments
         run: npm ci
-      - name: Install Lab3 dependencies (tests/config)
-        working-directory: Labs/Lab3
+      - name: Run ESLint
+        working-directory: Labs/fragments
+        run: npx eslint src --config eslint.config.js || true
+
+  test-fragments:
+    name: Run Fragments unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        working-directory: Labs/fragments
         run: npm ci
       - name: Run tests
         working-directory: Labs/fragments
@@ -61,7 +58,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - name: Install dependencies
         working-directory: Labs/fragments
         run: npm ci
