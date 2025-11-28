@@ -37,11 +37,10 @@
     "pino-http": "^8.1.0",
     "http-auth": "^3.2.3",
     "http-auth-passport": "^1.0.0"
-,
-    "markdown-it": "^14.0.0"
   },
   "optionalDependencies": {
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "markdown-it": "^14.0.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",

@@ -3,7 +3,7 @@
 # Build and push fragments-ui to Docker Hub
 # Usage: ./build-and-push.sh [your-dockerhub-username]
 
-DOCKERHUB_USERNAME=${1:-abhinav}
+DOCKERHUB_USERNAME=${1:-abhinavintech}
 IMAGE_NAME="fragments-ui"
 TAG="latest"
 
